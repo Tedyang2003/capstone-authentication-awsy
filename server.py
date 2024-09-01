@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 import datetime
+import os
+import jwt
 
 
 server = Flask(__name__)
@@ -11,12 +13,14 @@ server.config['MYSQL_USER'] = os.environ.get("MYSQL_USER")
 server.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
 server.config['MYSQL_DB'] = os.environ.get("MYSQL_DB")
 server.config['MYSQL_PORT'] = os.environ.get("MYSQL_PORT")
+jwt_secret = os.environ.get("JWT_SECRET")
 
 # server.config['MYSQL_HOST'] = "gateway01.ap-southeast-1.prod.aws.tidbcloud.com"
 # server.config['MYSQL_USER'] = "49AANmU89zpJQGt.root"
 # server.config['MYSQL_PASSWORD'] = "EmaKcVw88peONnKT"
 # server.config['MYSQL_DB'] = "auth"
 # server.config['MYSQL_PORT'] = 4000
+# jwt_secret = "sarcasm"
 # server.config['MYSQL_SSL_CA'] = "../../../isrgrootx1.pem"
 
 # @server.route("/", methods=['GET'])
@@ -37,7 +41,7 @@ def login():
 
     cur = mysql.connection.cursor()
     res = cur.execute(
-        "SELECT email, password FROM user WERE email=%s;", (auth.username, ), 
+        "SELECT email, password FROM user WHERE email=%s;", (auth.username, ), 
     )
 
     if res > 0:
@@ -48,7 +52,8 @@ def login():
         if auth.username != email or auth.password != password:
             return "invalid credentials", 401
         else:
-            return createJWT(auth.username, os.environ.get("JWT_SECRET"), True)
+            print(createJWT(auth.username, jwt_secret, True))
+            return createJWT(auth.username, jwt_secret, True)
     else: 
         return "invalid credentials", 401
 
@@ -79,7 +84,7 @@ def createJWT(username, secret, authz):
     return jwt.encode(
         { #Content
             'username': username,
-            'exp': datetime.datetime.now(tz=datetime.datetime.utc) + datetime.timedelta(days=1), #Requires timezone to understand how to add 1 day
+            'exp': datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(days=1), #Requires timezone to understand how to add 1 day
             'iat': datetime.datetime.utcnow(),
             'admin': authz,
         },

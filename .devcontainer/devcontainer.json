@@ -17,7 +17,7 @@
 			"version": "3.10"
 		}
 	},
-	"postCreateCommand": "sudo apt-get update && sudo apt-get upgrade && apt-get install pkg-config"
+	"postCreateCommand": "sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install libmysqlclient-dev -y && pip install -r requirements.txt"
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},

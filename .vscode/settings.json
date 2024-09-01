@@ -1,0 +1,22 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Enabled",
+                "ssl": {
+                    "ca": "C:\\Skill_Drawer\\Custom_Projects\\containers_kub\\isrgrootx1.pem"
+                }
+            },
+            "previewLimit": 50,
+            "server": "gateway01.ap-southeast-1.prod.aws.tidbcloud.com",
+            "port": 4000,
+            "driver": "TiDB",
+            "name": "Capstone",
+            "group": "Capstone",
+            "username": "49AANmU89zpJQGt.root",
+            "password": "EmaKcVw88peONnKT",
+            "database": "auth"
+        }
+    ]
+}
