@@ -14,6 +14,7 @@ server.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
 server.config['MYSQL_DB'] = os.environ.get("MYSQL_DB")
 server.config['MYSQL_PORT'] = int(os.environ.get("MYSQL_PORT"))
 server.config['MYSQL_CA'] = "./isrgrootx1.pem"
+server.config['MYSQL_SSL'] = True  # Enable SSL
 jwt_secret = os.environ.get("JWT_SECRET")
 
 # server.config['MYSQL_HOST'] = "gateway01.ap-southeast-1.prod.aws.tidbcloud.com"
